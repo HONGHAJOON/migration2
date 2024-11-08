@@ -1,0 +1,16 @@
+package com.migration;
+
+import org.springframework.boot.SpringApplication;
+import java.sql.*;
+public class MigrationApplication {
+	
+	public static void main(String[] args) {
+		SpringApplication.run(MigrationApplication.class, args);
+		
+		Connection conn;
+		ResultSet rst;
+		PreparedStatement psmt = null;
+		
+	}
+
+}
