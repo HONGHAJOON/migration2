@@ -1,0 +1,11 @@
+package com.migration;
+
+import java.sql.ResultSet;
+
+public class ReadThread extends Thread{
+	@Override
+	public void run() {
+		ResultSet rst=null;
+		
+	}
+}

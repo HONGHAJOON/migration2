@@ -1,0 +1,8 @@
+package com.migration;
+
+public class WriteThread extends MigrationApplication implements Runnable{
+	@Override
+	public void run() {
+		
+	}
+}

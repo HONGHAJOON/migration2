@@ -1,0 +1,32 @@
+package com.migration;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class ReadThread extends Thread {
+	DBDriver dbDriver = new DBDriver();
+
+	Connection conn = dbDriver.dbDriverConn("jdbc:oracle:thin:@localhost:1521:orcl", "system", "7564");
+	PreparedStatement sPsmt = null;
+	ResultSet rst = null;
+	@Override
+	public void run() {
+
+		try {
+			String sql = "SELECT COUNT(*) FROM TEST.EMPLOYEE";
+			sPsmt = conn.prepareStatement(sql);
+			rst = sPsmt.executeQuery();
+			System.out.println(rst.getInt()));
+			for (int i = 0; i < 100; i++) {
+				System.out.print("R");
+			}
+			WriteThread writeT = new WriteThread();
+			writeT.setDaemon(true);
+			writeT.start();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+}

@@ -1,0 +1,102 @@
+package com.migration;
+
+import org.springframework.boot.SpringApplication;
+import java.sql.*;
+
+public class MigrationApplication {
+	
+	static long startTime = 0;
+	
+	
+
+	public static void main(String[] args) {
+		SpringApplication.run(MigrationApplication.class, args);
+		// 1. Source, Target Database 연결확인 : 필요한 파라미터(DB주소, id, pw)
+		// -Target DB 연결 : 실패시 예외처리(??동시에 두개의 DB연결 가능한지)
+		// -Target DB 연결해제
+		// -Source DB 연결 : 실패시 예외처리
+//		Connection sConn = app.dbDriver("jdbc:oracle:thin:@localhost:1521:orcl", "system", "7564");; // 2개씩
+//		Connection tConn = app.dbDriver("jdbc:postgresql://localhost:5432/postgres", "postgres", "7564");;
+		ResultSet rst = null;
+		PreparedStatement sPsmt = null; // 2개씩
+		PreparedStatement tPsmt = null;
+		
+		
+		// 2. Table 생성 : 필요한 파라미터(Table명)
+		// -추출 테이블 컬럼명, 컬럼타입, key값 (나머지 속성들?) 조회
+		// -Target DB에 테이블 생성(세부 속성 설정)
+
+		// 3. Data 삽입
+		// -테이블이 하나일때 : SourceDB top-n 쿼리조회 및 TargetDB삽입 방식반복(속도 개선)
+		// -키가 연결된 테이블이 두개 이상일 때 : join후 groupby시켜 top-n 쿼리조회 및 TargetDB 삽입 방식반복
+		//
+
+		// 4. 성공 여부 확인
+		// ?데이터 하나하나 비교?
+		// 항시 예외시 롤백, 최종성공시 커밋
+		
+		startTime = System.currentTimeMillis();
+		
+		ReadThread readT=new ReadThread();
+//		WriteThread writeT=new WriteThread();
+		
+		
+		readT.start();
+		writeT.start();
+		
+		System.out.println("소요시간 : "+(System.currentTimeMillis() - startTime));
+//		try {
+//			String sql = "SELECT * FROM TEST.EMPLOYEE";
+//			sPsmt = sConn.prepareStatement(sql);
+//			rst = sPsmt.executeQuery();
+//			ResultSetMetaData rsmd = rst.getMetaData();
+//			int columnCount = rsmd.getColumnCount();
+//			System.out.println(rst.getType());
+//			
+//			//Prepare Insert Statement
+//			StringBuilder insertSql = new StringBuilder("INSERT INTO employee (");
+//            for (int i = 1; i <= columnCount; i++) {
+//                insertSql.append(rsmd.getColumnName(i));
+//                if (i < columnCount) insertSql.append(", ");
+//            }
+//            insertSql.append(") VALUES (");
+//            for (int i = 1; i <= columnCount; i++) {
+//                insertSql.append("?");
+//                if (i < columnCount) insertSql.append(", ");
+//            }
+//            insertSql.append(")");
+//            tPsmt = tConn.prepareStatement(insertSql.toString());
+//
+//            // Insert Data into TargetDB
+//            while (rst.next()) {
+//                for (int i = 1; i <= columnCount; i++) {
+//                    int columnType = rsmd.getColumnType(i);
+//                    if (columnType == Types.NUMERIC && rsmd.getScale(i) == 0) {
+//                        tPsmt.setInt(i, rst.getInt(i));
+//                    } else if (columnType == Types.NUMERIC) {
+//                        tPsmt.setDouble(i, rst.getDouble(i));
+//                    } else if (columnType == Types.VARCHAR || columnType == Types.CLOB) {
+//                        tPsmt.setString(i, rst.getString(i));
+//                    } else if (columnType == Types.DATE || columnType == Types.TIMESTAMP) {
+//                        tPsmt.setDate(i, rst.getDate(i));
+//                    }
+//                }
+//                tPsmt.executeUpdate(); // Insert row into target table
+//            }
+//            System.out.println("Data migration completed successfully.");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			System.out.println("쿼리실패");
+//		} finally {
+//            try {
+//                if (rst != null) rst.close();
+//                if (sPsmt != null) sPsmt.close();
+//                if (tPsmt != null) tPsmt.close();
+//                if (sConn != null) sConn.close();
+//                if (tConn != null) tConn.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+	}
+}
